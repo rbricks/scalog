@@ -1,8 +1,8 @@
-name := "slog"
+name := "slog-backend"
 organization := "io.rbricks"
 
 scalaVersion := "2.11.8"
-version := "0.0.1"
+version := "0.1-SNAPSHOT"
 
 scalacOptions := Seq(
   "-unchecked",
@@ -16,5 +16,20 @@ libraryDependencies ++= Seq(
 
 licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
 
-bintrayOrganization := Some("rbricks")
-bintrayReleaseOnPublish in ThisBuild := false
+publishMavenStyle := true
+
+pomExtra in Global := {
+  <url>http://github.com/rbricks/slog</url>
+  <scm>
+    <connection>scm:git:github.com/rbricks/slog.git</connection>
+    <developerConnection>scm:git:git@github.com:rbricks/slog.git</developerConnection>
+    <url>github.com/rbricks/slog</url>
+  </scm>
+  <developers>
+    <developer>
+      <id>utaal</id>
+      <name>Andrea Lattuada</name>
+      <url>http://github.com/utaal</url>
+    </developer>
+  </developers>
+}
