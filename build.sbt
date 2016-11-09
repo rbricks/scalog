@@ -1,8 +1,8 @@
-name := "logging"
+name := "slog"
 organization := "io.rbricks"
 
 scalaVersion := "2.11.8"
-version := "0.1-SNAPSHOT"
+version := "0.0.1"
 
 scalacOptions := Seq(
   "-unchecked",
@@ -15,3 +15,6 @@ libraryDependencies ++= Seq(
 )
 
 licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
+
+bintrayOrganization := Some("rbricks")
+bintrayReleaseOnPublish in ThisBuild := false

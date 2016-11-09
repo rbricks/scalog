@@ -1,6 +1,6 @@
-package io.rbricks.nozzle.logging.transport
+package io.rbricks.slog.transport
 
-import io.rbricks.nozzle.logging._
+import io.rbricks.slog._
 
 import java.util.Calendar
 import java.util.TimeZone

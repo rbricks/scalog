@@ -1,4 +1,4 @@
-package io.rbricks.nozzle.logging
+package io.rbricks.slog
 
 case class LogMessage(
   level: Level,
