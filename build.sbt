@@ -1,7 +1,8 @@
 name := "slog-backend"
 organization := "io.rbricks"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.0"
+crossScalaVersions := Seq("2.11.8", "2.12.0")
 version := "0.1-SNAPSHOT"
 
 scalacOptions := Seq(
@@ -11,7 +12,7 @@ scalacOptions := Seq(
   "utf8")
 
 libraryDependencies ++= Seq(
-  "org.slf4j"      %  "slf4j-api"              % "1.7.7"
+  "org.slf4j"      %  "slf4j-api"              % "1.7.21"
 )
 
 licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
