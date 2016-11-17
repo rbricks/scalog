@@ -14,4 +14,4 @@ object Level {
   }
 }
 
-case object Disabled extends Level { val value = 0 }
+case object Disabled extends Level { val value = 6 }

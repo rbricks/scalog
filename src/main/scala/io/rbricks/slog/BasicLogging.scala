@@ -4,19 +4,17 @@ import org.slf4j.helpers.MessageFormatter
 
 trait BasicLogging
 
-private[slog] class BasicLoggingImpl(private val levelsEnabled: PartialFunction[String, Level], showDisabledLoggers: Boolean) extends BasicLogging {
+private[slog] class BasicLoggingImpl(levelsEnabled: Seq[(String, Level)], private val showDisabledLoggers: Boolean, private val transports: Seq[Transport]) extends BasicLogging {
 
-  private val transports = Seq(new transport.Console(colorized = true))
+  val levelsEnabledTrie = PackageTrie(levelsEnabled)
 
   private def writeToTransports(name: String, logMessage: LogMessage) = transports.foreach(_.write(name, logMessage))
       
-  // private val loggingLogger = Logger("io.rbricks.slog.BasicLogging", transports, { case _ => true })
-
   private val loggerNames = scala.collection.mutable.HashSet[String]()
 
   @inline
   private[this] def loggersEnabled(name: String): Map[Level, Boolean] = {
-    val enabled = levelsEnabled.applyOrElse(name, (_: String) => Disabled)
+    val enabled = levelsEnabledTrie.getAllOnPath(name).lastOption.getOrElse(Disabled)
     if (showDisabledLoggers && enabled == Disabled) {
       if (!loggerNames.contains(name)) {
         writeToTransports("io.rbricks.slog.BasicLogging", LogMessage(
@@ -27,10 +25,10 @@ private[slog] class BasicLoggingImpl(private val levelsEnabled: PartialFunction[
       loggerNames += name
     }
     Map[Level, Boolean](
-      Level.Debug -> (enabled.value >= Level.Debug.value),
-      Level.Info  -> (enabled.value >= Level.Info.value ),
-      Level.Warn  -> (enabled.value >= Level.Warn.value ),
-      Level.Error -> (enabled.value >= Level.Error.value)
+      Level.Debug -> (enabled.value <= Level.Debug.value),
+      Level.Info  -> (enabled.value <= Level.Info.value ),
+      Level.Warn  -> (enabled.value <= Level.Warn.value ),
+      Level.Error -> (enabled.value <= Level.Error.value)
     )
   }
 
@@ -47,24 +45,26 @@ private[slog] class Logger(name: String, enabled: Map[Level, Boolean], writeToTr
 
   def write(name: String, level: Level, message: String, cause: Option[Throwable]): Unit = {
     import scala.collection.JavaConversions._
-    val callerDataArray = CallSiteData.extract(
-      new Throwable(),
-      Logger.fullyQualifiedClassName)
-    val topFrame = if (callerDataArray != null && callerDataArray.length > 0) {
-      Some(callerDataArray(0))
-    } else None
-    val file = topFrame.map(_.getFileName())
-    val line = topFrame.map(x => x.getLineNumber())
-    val className = topFrame.map(_.getClassName())
-    val method = topFrame.map(_.getMethodName())
-    writeToTransports(name, LogMessage(
-      level,
-      message,
-      className = className,
-      method = method,
-      fileName = file,
-      line = line,
-      cause = cause))
+    if (enabled(level)) {
+      val callerDataArray = CallSiteData.extract(
+        new Throwable(),
+        Logger.fullyQualifiedClassName)
+      val topFrame = if (callerDataArray != null && callerDataArray.length > 0) {
+        Some(callerDataArray(0))
+      } else None
+      val file = topFrame.map(_.getFileName())
+      val line = topFrame.map(x => x.getLineNumber())
+      val className = topFrame.map(_.getClassName())
+      val method = topFrame.map(_.getMethodName())
+      writeToTransports(name, LogMessage(
+        level,
+        message,
+        className = className,
+        method = method,
+        fileName = file,
+        line = line,
+        cause = cause))
+    }
   }
 
   def debug(msg: String, cause: Throwable): Unit =
@@ -159,5 +159,12 @@ private[slog] object Logger {
 }
 
 object BasicLogging {
-  def apply(showDisabledLoggers: Boolean = false)(levelsEnabled: PartialFunction[String, Level]): BasicLogging = new BasicLoggingImpl(levelsEnabled, showDisabledLoggers)
+  def apply(showDisabledLoggers: Boolean)(levelsEnabled: (String, Level)*): BasicLogging = {
+    val transports = Seq(new transport.Console(colorized = true))
+    apply(transports, showDisabledLoggers)(levelsEnabled: _*)
+  }
+
+  def apply(transports: Seq[Transport], showDisabledLoggers: Boolean = false)(levelsEnabled: (String, Level)*): BasicLogging = {
+    new BasicLoggingImpl(levelsEnabled, showDisabledLoggers, transports)
+  }
 }
