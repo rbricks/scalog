@@ -4,9 +4,9 @@ import org.slf4j.helpers.MessageFormatter
 
 trait BasicLogging
 
-private[slog] class BasicLoggingImpl(levelsEnabled: Seq[(String, Level)], private val showDisabledLoggers: Boolean, private val transports: Seq[Transport]) extends BasicLogging {
+private[slog] class BasicLoggingImpl(enabledLevels: Seq[(String, Level)], private val showDisabledLoggers: Boolean, private val transports: Seq[Transport]) extends BasicLogging {
 
-  val levelsEnabledTrie = PackageTrie(levelsEnabled)
+  val enabledLevelsTrie = PackageTrie(enabledLevels)
 
   private def writeToTransports(name: String, logMessage: LogMessage) = transports.foreach(_.write(name, logMessage))
       
@@ -14,7 +14,7 @@ private[slog] class BasicLoggingImpl(levelsEnabled: Seq[(String, Level)], privat
 
   @inline
   private[this] def loggersEnabled(name: String): Map[Level, Boolean] = {
-    val enabled = levelsEnabledTrie.getAllOnPath(name).lastOption.getOrElse(Disabled)
+    val enabled = enabledLevelsTrie.getAllOnPath(name).lastOption.getOrElse(Disabled)
     if (showDisabledLoggers && enabled == Disabled) {
       if (!loggerNames.contains(name)) {
         writeToTransports("io.rbricks.slog.BasicLogging", LogMessage(
@@ -159,12 +159,17 @@ private[slog] object Logger {
 }
 
 object BasicLogging {
-  def apply(showDisabledLoggers: Boolean)(levelsEnabled: (String, Level)*): BasicLogging = {
+  def apply(showDisabledLoggers: Boolean)(enabledLevels: (String, Level)*): BasicLogging = {
     val transports = Seq(new transport.Console(colorized = true))
-    apply(transports, showDisabledLoggers)(levelsEnabled: _*)
+    apply(transports, showDisabledLoggers)(enabledLevels: _*)
   }
 
-  def apply(transports: Seq[Transport], showDisabledLoggers: Boolean = false)(levelsEnabled: (String, Level)*): BasicLogging = {
-    new BasicLoggingImpl(levelsEnabled, showDisabledLoggers, transports)
+  private[slog] def apply(transports: Seq[Transport], showDisabledLoggers: Boolean = false)(enabledLevels: (String, Level)*): BasicLogging = {
+    new BasicLoggingImpl(enabledLevels, showDisabledLoggers, transports)
+  }
+
+  def fromConfig(showDisabledLoggers: Boolean)(config: com.typesafe.config.Config): BasicLogging = {
+    val enabledLevels = typesafeconfig.enabledLevelsFromConfig(config)
+    apply(showDisabledLoggers)(enabledLevels: _*)
   }
 }

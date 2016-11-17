@@ -13,6 +13,7 @@ scalacOptions := Seq(
 
 libraryDependencies ++= Seq(
   "org.slf4j"      %  "slf4j-api"              % "1.7.21",
+  "com.typesafe"   %  "config"                 % "1.3.1"       % "provided",
   "com.lihaoyi"    %% "utest"                  % "0.4.3"       % "test"
 )
 

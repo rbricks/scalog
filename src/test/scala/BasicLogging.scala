@@ -40,7 +40,7 @@ object BasicLoggingTests extends TestSuite {
       other.info("info")
       other.info("info")
 
-      println(writes)
+      // println(writes)
       assertMatch(writes){
         case scala.collection.mutable.ListBuffer(
           ("com.example.a.sth", LogMessage(_, "something", _, _, _, _, _)),
