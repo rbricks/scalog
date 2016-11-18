@@ -14,7 +14,8 @@ scalacOptions := Seq(
 libraryDependencies ++= Seq(
   "org.slf4j"      %  "slf4j-api"              % "1.7.21",
   "com.typesafe"   %  "config"                 % "1.3.1"       % "provided",
-  "com.lihaoyi"    %% "utest"                  % "0.4.4"       % "test"
+  "com.lihaoyi"    %% "utest"                  % "0.4.4"       % "test",
+  "com.lihaoyi"    %% "pprint"                 % "0.4.4"       % "test"
 )
 
 val root = (project in file("."))
@@ -29,7 +30,8 @@ val example = (project in file("example")).
     libraryDependencies ++= Seq(
       "org.slf4j"      %  "slf4j-api"              % "1.7.21",
       "com.typesafe"   %  "config"                 % "1.3.1"
-    )
+    ),
+    packAutoSettings
   ).
   dependsOn(root)
 

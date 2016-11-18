@@ -4,9 +4,9 @@ import org.slf4j.LoggerFactory
 
 import utest._
 
-object BasicLoggingTests extends TestSuite {
+object LoggingBackendTests extends TestSuite {
   val tests = this {
-    "BasicLogging logs endabled levels to transports" - {
+    "LoggingBackend logs endabled levels to transports" - {
       val writes = scala.collection.mutable.ListBuffer.empty[(String, LogMessage)]
 
       val transport = new Transport {
@@ -15,7 +15,8 @@ object BasicLoggingTests extends TestSuite {
         }
       }
       
-      val basicLogging = BasicLogging(Seq(transport), showDisabledLoggers = true)(
+      val loggingBackend = LoggingBackend.singleTransport(transport,
+        "io.rbricks.slog" -> Level.Info,
         "com.example.a" -> Level.Info,
         "com.example.a.inner" -> Level.Debug,
         "com.example" -> Level.Error
@@ -40,14 +41,15 @@ object BasicLoggingTests extends TestSuite {
       other.info("info")
       other.info("info")
 
-      // println(writes)
+      loggingBackend.cease()
+      // pprint.pprintln(writes)
       assertMatch(writes){
         case scala.collection.mutable.ListBuffer(
           ("com.example.a.sth", LogMessage(_, "something", _, _, _, _, _)),
           ("com.example.a.inner.c", LogMessage(_, "ok", _, _, _, _, _)),
           ("com.example.d", LogMessage(_, "!!", _, _, _, _, _)),
           ("com.example", LogMessage(_, "start", _, _, _, _, _)),
-          ("io.rbricks.slog.BasicLogging", LogMessage(_, "Logger with name \"com.other\" available and disabled", _, _, _, _, _))
+          ("io.rbricks.slog.disabled", LogMessage(_, "Logger with name \"com.other\" available and disabled", _, _, _, _, _))
         ) =>
       }
     }

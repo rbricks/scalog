@@ -2,50 +2,15 @@ package io.rbricks.slog
 
 import org.slf4j.helpers.MessageFormatter
 
-trait BasicLogging
-
-private[slog] class BasicLoggingImpl(enabledLevels: Seq[(String, Level)], private val showDisabledLoggers: Boolean, private val transports: Seq[Transport]) extends BasicLogging {
-
-  val enabledLevelsTrie = PackageTrie(enabledLevels)
-
-  private def writeToTransports(name: String, logMessage: LogMessage) = transports.foreach(_.write(name, logMessage))
-      
-  private val loggerNames = scala.collection.mutable.HashSet[String]()
-
-  @inline
-  private[this] def loggersEnabled(name: String): Map[Level, Boolean] = {
-    val enabled = enabledLevelsTrie.getAllOnPath(name).lastOption.getOrElse(Disabled)
-    if (showDisabledLoggers && enabled == Disabled) {
-      if (!loggerNames.contains(name)) {
-        writeToTransports("io.rbricks.slog.BasicLogging", LogMessage(
-          Level.Info,
-          s"Logger with name ${ "\"" + name + "\"" } available and disabled",
-          className = Some("io.rbricks.slog.BasicLogging"), method = None, fileName = None, line = None, cause = None))
-      }
-      loggerNames += name
-    }
-    Map[Level, Boolean](
-      Level.Debug -> (enabled.value <= Level.Debug.value),
-      Level.Info  -> (enabled.value <= Level.Info.value ),
-      Level.Warn  -> (enabled.value <= Level.Warn.value ),
-      Level.Error -> (enabled.value <= Level.Error.value)
-    )
-  }
-
-  org.slf4j.impl.SimpleLoggerFactory.setLoggerFactoryInterface(new org.slf4j.impl.LoggerFactoryInterface {
-    def getNewLogger(name: String): org.slf4j.Logger = {
-      val enabled = loggersEnabled(name)
-      new Logger(name, enabled, writeToTransports)
-    }
-  })
-
-}
-
-private[slog] class Logger(name: String, enabled: Map[Level, Boolean], writeToTransports: (String, LogMessage) => Unit) extends org.slf4j.helpers.MarkerIgnoringBase {
+private[slog] class Logger(
+  name: String,
+  enabled: Level,
+  writeToTransports: (String, LogMessage) => Unit
+) extends org.slf4j.helpers.MarkerIgnoringBase {
 
   def write(name: String, level: Level, message: String, cause: Option[Throwable]): Unit = {
     import scala.collection.JavaConversions._
-    if (enabled(level)) {
+    if (level.value >= enabled.value) {
       val callerDataArray = CallSiteData.extract(
         new Throwable(),
         Logger.fullyQualifiedClassName)
@@ -147,29 +112,13 @@ private[slog] class Logger(name: String, enabled: Map[Level, Boolean], writeToTr
       Level.Trace,
       msg,
       cause = None)
-  def isDebugEnabled(): Boolean = enabled(Level.Debug)
-  def isErrorEnabled(): Boolean = enabled(Level.Error)
-  def isWarnEnabled(): Boolean =  enabled(Level.Warn)
-  def isInfoEnabled(): Boolean =  enabled(Level.Info)
-  def isTraceEnabled(): Boolean = enabled(Level.Trace)
+  def isDebugEnabled(): Boolean = Level.Debug.value >= enabled.value
+  def isErrorEnabled(): Boolean = Level.Error.value >= enabled.value
+  def isWarnEnabled(): Boolean =  Level.Warn.value  >= enabled.value
+  def isInfoEnabled(): Boolean =  Level.Info.value  >= enabled.value
+  def isTraceEnabled(): Boolean = Level.Trace.value >= enabled.value
 }
 
 private[slog] object Logger {
   final val fullyQualifiedClassName: String = io.rbricks.slog.Logger.getClass.getName();
-}
-
-object BasicLogging {
-  def apply(showDisabledLoggers: Boolean)(enabledLevels: (String, Level)*): BasicLogging = {
-    val transports = Seq(new transport.Console(colorized = true))
-    apply(transports, showDisabledLoggers)(enabledLevels: _*)
-  }
-
-  private[slog] def apply(transports: Seq[Transport], showDisabledLoggers: Boolean = false)(enabledLevels: (String, Level)*): BasicLogging = {
-    new BasicLoggingImpl(enabledLevels, showDisabledLoggers, transports)
-  }
-
-  def fromConfig(showDisabledLoggers: Boolean)(config: com.typesafe.config.Config): BasicLogging = {
-    val enabledLevels = typesafeconfig.enabledLevelsFromConfig(config)
-    apply(showDisabledLoggers)(enabledLevels: _*)
-  }
 }

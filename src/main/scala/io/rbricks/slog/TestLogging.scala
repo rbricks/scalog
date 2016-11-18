@@ -15,13 +15,8 @@ private[slog] class TestLoggingImpl(private val level: Level) extends TestLoggin
   private val loggerNames = scala.collection.mutable.HashSet[String]()
 
   @inline
-  private[this] def loggersEnabled(name: String): Map[Level, Boolean] = {
-    Map[Level, Boolean](
-      Level.Debug -> (level.value >= Level.Debug.value),
-      Level.Info  -> (level.value >= Level.Info.value ),
-      Level.Warn  -> (level.value >= Level.Warn.value ),
-      Level.Error -> (level.value >= Level.Error.value)
-    )
+  private[this] def loggersEnabled(name: String): Level = {
+    level
   }
 
   org.slf4j.impl.SimpleLoggerFactory.setLoggerFactoryInterface(new org.slf4j.impl.LoggerFactoryInterface {
