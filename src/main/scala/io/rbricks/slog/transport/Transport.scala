@@ -1,4 +1,6 @@
-package io.rbricks.slog
+package io.rbricks.slog.transport
+
+import io.rbricks.slog.LogMessage
 
 trait Transport {
   def write(

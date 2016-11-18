@@ -1,5 +1,7 @@
 package io.rbricks.slog
 
+import io.rbricks.slog.transport.Transport
+
 case class LoggingTransport(transport: Transport, levelsEnabled: Seq[(String, Level)])
 
 trait Backend {
@@ -20,11 +22,18 @@ private[slog] class LoggingBackend(
           t.write(name, message)
         }
       } catch {
-        case ex: InterruptedException => ()
+        case ex: InterruptedException =>
+          for ((t, name, message) <- Iterator
+            .continually(queue.poll(0, java.util.concurrent.TimeUnit.SECONDS))
+            .takeWhile(_ != null)) {
+
+            t.write(name, message)
+          }
       }
     }
   })
 
+  thread.setDaemon(true)
   thread.start()
 
   def cease(): Unit = {
@@ -86,7 +95,7 @@ object LoggingBackend {
   def console(enabledLevels: (String, Level)*): Backend = {
     val transports = Seq(
       LoggingTransport(
-        new transport.Console(colorized = (System.console() != null)), enabledLevels)
+        new transport.PrintStream(format.PlainText(colorized = (System.console() != null)), System.out), enabledLevels)
     )
     new LoggingBackend(transports)
   }
@@ -100,4 +109,7 @@ object LoggingBackend {
     val enabledLevels = typesafeconfig.enabledLevelsFromConfig(config)
     console(enabledLevels: _*)
   }
+
+  def testing(level: Level = Level.Info): Backend =
+    LoggingBackend.console("" -> level)
 }

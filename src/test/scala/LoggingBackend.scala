@@ -9,13 +9,13 @@ object LoggingBackendTests extends TestSuite {
     "LoggingBackend logs endabled levels to transports" - {
       val writes = scala.collection.mutable.ListBuffer.empty[(String, LogMessage)]
 
-      val transport = new Transport {
+      val t = new transport.Transport {
         def write(name: String, logMessage: LogMessage): Unit = {
           writes += ((name, logMessage))
         }
       }
       
-      val loggingBackend = LoggingBackend.singleTransport(transport,
+      val loggingBackend = LoggingBackend.singleTransport(t,
         "io.rbricks.slog" -> Level.Info,
         "com.example.a" -> Level.Info,
         "com.example.a.inner" -> Level.Debug,
