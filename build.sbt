@@ -1,7 +1,7 @@
 name := "slog-backend"
 organization := "io.rbricks"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.0"
 crossScalaVersions := Seq("2.11.8", "2.12.0")
 version := "0.1-SNAPSHOT"
 
@@ -14,8 +14,24 @@ scalacOptions := Seq(
 libraryDependencies ++= Seq(
   "org.slf4j"      %  "slf4j-api"              % "1.7.21",
   "com.typesafe"   %  "config"                 % "1.3.1"       % "provided",
-  "com.lihaoyi"    %% "utest"                  % "0.4.3"       % "test"
+  "com.lihaoyi"    %% "utest"                  % "0.4.4"       % "test"
 )
+
+val root = (project in file("."))
+
+val example = (project in file("example")).
+  settings(
+    scalaVersion := "2.12.0",
+    crossScalaVersions := Seq("2.11.8", "2.12.0"),
+    publish := (),
+    publishLocal := (),
+    publishArtifact := false,
+    libraryDependencies ++= Seq(
+      "org.slf4j"      %  "slf4j-api"              % "1.7.21",
+      "com.typesafe"   %  "config"                 % "1.3.1"
+    )
+  ).
+  dependsOn(root)
 
 testFrameworks += new TestFramework("utest.runner.Framework")
 

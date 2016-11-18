@@ -28,7 +28,6 @@ object EnabledFromConfigTests extends TestSuite {
       assert(enabledLevels.getAllOnPath("com.example.inner").lastOption == Some(Level.Warn))
       assert(enabledLevels.getAllOnPath("com.example.inner.else").lastOption == Some(Level.Debug))
       assert(enabledLevels.getAllOnPath("com.example.other.else").lastOption == Some(Level.Error))
-
     }
   }
 }

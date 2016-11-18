@@ -29,7 +29,6 @@ package object typesafeconfig {
     
   def enabledLevelsFromConfig(config: com.typesafe.config.Config): Seq[(String, Level)] = {
     val vals = config.entrySet.toSeq.map(x => (x.getKey -> x.getValue))
-    println(vals)
     vals.map { case (PackageLevelKey(k), v) =>
       val lvl = (v.unwrapped match {
         case s: String => Some(s)
@@ -38,7 +37,7 @@ package object typesafeconfig {
       .getOrElse {
         throw InvalidConfig(k, v.unwrapped.toString)
       }
-      k -> lvl
+      k.replace("\"", "") -> lvl
     }
   }
 }
