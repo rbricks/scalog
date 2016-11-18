@@ -14,6 +14,27 @@ private[slog] class LoggingBackend(
 
   val queue = new java.util.concurrent.ArrayBlockingQueue[(Transport, String, LogMessage)](1000)
 
+  private def flush(): Unit = {
+    queue.synchronized {
+      try {
+        for ((t, name, message) <- Iterator
+          .continually(queue.poll(0, java.util.concurrent.TimeUnit.SECONDS))
+          .takeWhile(_ != null)) {
+
+          t.write(name, message)
+        }
+      } catch { // defensive catch-em-all
+        case _: Exception => ()
+      }
+    }
+  }
+
+  java.lang.Runtime.getRuntime().addShutdownHook(new Thread(new Runnable {
+    def run() {
+      flush()
+    }
+  }))
+
   val thread = new Thread(new Runnable {
     def run() {
       try {
@@ -23,12 +44,7 @@ private[slog] class LoggingBackend(
         }
       } catch {
         case ex: InterruptedException =>
-          for ((t, name, message) <- Iterator
-            .continually(queue.poll(0, java.util.concurrent.TimeUnit.SECONDS))
-            .takeWhile(_ != null)) {
-
-            t.write(name, message)
-          }
+          flush()
       }
     }
   })
