@@ -1,0 +1,16 @@
+<!DOCTYPE aspectj PUBLIC "-//AspectJ//DTD//EN" "http://www.eclipse.org/aspectj/dtd/aspectj.dtd">
+
+<aspectj>
+  <aspects>
+
+    <!-- Futures -->
+    <aspect name="io.rbricks.slog.contextpropagation.FutureInstrumentation"/>
+
+  </aspects>
+
+  <weaver>
+    <include within="scala.concurrent..*"/>
+    <include within="io.rbricks.slog.contextpropagation..*"/>
+  </weaver>
+
+</aspectj>
