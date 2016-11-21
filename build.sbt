@@ -1,58 +1,103 @@
-name := "slog-backend"
-organization := "io.rbricks"
+import com.typesafe.sbt.SbtAspectj.AspectjKeys.{ compileOnly, weaverOptions, verbose }
 
-scalaVersion := "2.12.0"
-crossScalaVersions := Seq("2.11.8", "2.12.0")
-version := "0.1-SNAPSHOT"
-
-scalacOptions := Seq(
-  "-unchecked",
-  "-deprecation",
-  "-encoding",
-  "utf8")
-
-libraryDependencies ++= Seq(
-  "org.slf4j"      %  "slf4j-api"              % "1.7.21",
-  "com.typesafe"   %  "config"                 % "1.3.1"       % "provided",
-  "com.lihaoyi"    %% "utest"                  % "0.4.4"       % "test",
-  "com.lihaoyi"    %% "pprint"                 % "0.4.4"       % "test"
+lazy val commonSettings = Seq(
+  organization := "io.rbricks",
+  scalaVersion := "2.12.0",
+  crossScalaVersions := Seq("2.11.8", "2.12.0"),
+  version := "0.1-SNAPSHOT",
+  scalacOptions := Seq(
+    "-unchecked",
+    "-deprecation",
+    "-encoding",
+    "utf8"),
+  libraryDependencies ++= Seq(
+    "com.lihaoyi"    %% "utest"                  % "0.4.4"       % "test",
+    "com.lihaoyi"    %% "pprint"                 % "0.4.4"       % "test"
+  ),
+  testFrameworks += new TestFramework("utest.runner.Framework")
 )
 
-val root = (project in file("."))
-
-val example = (project in file("example")).
-  settings(
-    scalaVersion := "2.12.0",
-    crossScalaVersions := Seq("2.11.8", "2.12.0"),
-    publish := (),
-    publishLocal := (),
-    publishArtifact := false,
+val backend = (project in file("backend"))
+  .settings(commonSettings)
+  .settings(publishSettings)
+  .settings(
+    name := "slog-backend",
     libraryDependencies ++= Seq(
       "org.slf4j"      %  "slf4j-api"              % "1.7.21",
-      "com.typesafe"   %  "config"                 % "1.3.1"
+      "com.typesafe"   %  "config"                 % "1.3.1"       % "provided"
+    )
+  )
+
+val mdc = (project in file("mdc"))
+  .settings(commonSettings)
+  .settings(publishSettings)
+  .settings(
+    name := "slog-mdc",
+    libraryDependencies ++= Seq(
+      "org.slf4j"      %  "slf4j-api"              % "1.7.21"
+    )
+  )
+
+val contextpropagation = (project in file("contextpropagation"))
+  .settings(commonSettings)
+  .settings(publishSettings)
+  .settings(aspectjSettings)
+  .settings(
+    name := "slog-contextpropagation",
+    libraryDependencies ++= Seq(
+      "org.slf4j"      % "slf4j-api"               % "1.7.21"
     ),
-    packAutoSettings
-  ).
-  dependsOn(root)
+    compileOnly in Aspectj := true,
+    products in Compile <++= products in Aspectj,
+    fork in Test := true,
+    javaOptions in Test <++= weaverOptions in Aspectj
+  )
+  .dependsOn(mdc % "test")
 
-testFrameworks += new TestFramework("utest.runner.Framework")
 
-licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
+val example = (project in file("example"))
+  .settings(noPublishSettings)
+  .settings(
+    scalaVersion := "2.12.0",
+    crossScalaVersions := Seq("2.11.8", "2.12.0"),
+    libraryDependencies ++= Seq(
+      "org.slf4j"      % "slf4j-api"               % "1.7.21",
+      "com.typesafe"   % "config"                  % "1.3.1",
+      "org.aspectj"    % "aspectjweaver"           % "1.8.4"
+    ),
+    packAutoSettings,
+    aspectjSettings,
+    javaOptions in run <++= weaverOptions in Aspectj,
+    fork in run := true,
+    packJvmOpts := Map("main" -> Seq("-javaagent:'${PROG_HOME}/lib/aspectjweaver-1.8.4.jar'"))
+  )
+  .dependsOn(backend, contextpropagation, mdc)
 
-publishMavenStyle := true
+val root = project
+  .aggregate(backend, mdc, contextpropagation, example)
 
-pomExtra in Global := {
-  <url>http://github.com/rbricks/slog</url>
-  <scm>
-    <connection>scm:git:github.com/rbricks/slog.git</connection>
-    <developerConnection>scm:git:git@github.com:rbricks/slog.git</developerConnection>
-    <url>github.com/rbricks/slog</url>
-  </scm>
-  <developers>
-    <developer>
-      <id>utaal</id>
-      <name>Andrea Lattuada</name>
-      <url>http://github.com/utaal</url>
-    </developer>
-  </developers>
-}
+lazy val noPublishSettings = Seq(
+  publish := (),
+  publishLocal := (),
+  publishArtifact := false
+)
+
+lazy val publishSettings = Seq(
+  licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
+  publishMavenStyle := true,
+  pomExtra in Global := {
+    <url>http://github.com/rbricks/slog</url>
+    <scm>
+      <connection>scm:git:github.com/rbricks/slog.git</connection>
+      <developerConnection>scm:git:git@github.com:rbricks/slog.git</developerConnection>
+      <url>github.com/rbricks/slog</url>
+    </scm>
+    <developers>
+      <developer>
+        <id>utaal</id>
+        <name>Andrea Lattuada</name>
+        <url>http://github.com/utaal</url>
+      </developer>
+    </developers>
+  }
+)
