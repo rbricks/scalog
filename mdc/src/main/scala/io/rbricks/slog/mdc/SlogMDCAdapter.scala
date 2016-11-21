@@ -38,8 +38,12 @@ class SlogMDCAdapter extends MDCAdapter {
   }
 
   def getCopyOfContextMap(): java.util.Map[String, String] = {
-    Option(threadLocal.get())
-      .map(_.asJava).getOrElse(null)
+    val tl = threadLocal.get()
+    if (tl == null) {
+      null
+    } else {
+      tl.asJava
+    }
   }
 
   def setContextMap(contextMap: java.util.Map[String, String]): Unit = {

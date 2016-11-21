@@ -54,6 +54,19 @@ val contextpropagation = (project in file("contextpropagation"))
   )
   .dependsOn(mdc % "test")
 
+val contextpropagationBenchWoven = (project in file("contextpropagation/bench/woven"))
+  .enablePlugins(JmhPlugin)
+  .settings(commonSettings)
+  .settings(
+    aspectjSettings,
+    javaOptions in run <++= weaverOptions in Aspectj
+  )
+  .dependsOn(contextpropagation, mdc)
+
+val contextpropagationBenchVanilla = (project in file("contextpropagation/bench/vanilla"))
+  .settings(commonSettings)
+  .enablePlugins(JmhPlugin)
+  .dependsOn(mdc)
 
 val example = (project in file("example"))
   .settings(noPublishSettings)
