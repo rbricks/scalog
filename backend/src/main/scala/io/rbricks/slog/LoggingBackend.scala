@@ -72,6 +72,7 @@ private[slog] class LoggingBackend(
         if (Level.Info.value >= lvl.value) {
           try {
             queue.add((t, "io.rbricks.slog.disabled", LogMessage(
+              java.time.Instant.now(),
               Level.Info,
               s"Logger with name ${ "\"" + name + "\"" } available and disabled",
               className = Some("io.rbricks.slog.LoggingBackend"),

@@ -1,6 +1,7 @@
 package io.rbricks.slog
 
 case class LogMessage(
+  time: java.time.Instant,
   level: Level,
   message: Any,
   className: Option[String],

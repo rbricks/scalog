@@ -45,11 +45,11 @@ object LoggingBackendTests extends TestSuite {
       // pprint.pprintln(writes)
       assertMatch(writes){
         case scala.collection.mutable.ListBuffer(
-          ("com.example.a.sth", LogMessage(_, "something", _, _, _, _, _, _)),
-          ("com.example.a.inner.c", LogMessage(_, "ok", _, _, _, _, _, _)),
-          ("com.example.d", LogMessage(_, "!!", _, _, _, _, _, _)),
-          ("com.example", LogMessage(_, "start", _, _, _, _, _, _)),
-          ("io.rbricks.slog.disabled", LogMessage(_, "Logger with name \"com.other\" available and disabled", _, _, _, _, _, _))
+          ("com.example.a.sth", LogMessage(_, _, "something", _, _, _, _, _, _)),
+          ("com.example.a.inner.c", LogMessage(_, _, "ok", _, _, _, _, _, _)),
+          ("com.example.d", LogMessage(_, _, "!!", _, _, _, _, _, _)),
+          ("com.example", LogMessage(_, _, "start", _, _, _, _, _, _)),
+          ("io.rbricks.slog.disabled", LogMessage(_, _, "Logger with name \"com.other\" available and disabled", _, _, _, _, _, _))
         ) =>
       }
     }

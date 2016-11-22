@@ -31,6 +31,7 @@ private[slog] class Logger(
           Option(a.getCopyOfContextMap()).map(_.asScala.toMap)
       }
       writeToTransports(name, LogMessage(
+        time = java.time.Instant.now(),
         level,
         message,
         className = className,
