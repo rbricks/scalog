@@ -46,6 +46,10 @@ class SlogMDCAdapter extends MDCAdapter {
     }
   }
 
+  def propertyMap: Option[Map[String, String]] = {
+    Option(threadLocal.get())
+  }
+
   def setContextMap(contextMap: java.util.Map[String, String]): Unit = {
     threadLocal.set(contextMap.asScala.toMap)
   }

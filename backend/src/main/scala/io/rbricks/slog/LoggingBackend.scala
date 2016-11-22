@@ -74,7 +74,8 @@ private[slog] class LoggingBackend(
             queue.add((t, "io.rbricks.slog.disabled", LogMessage(
               Level.Info,
               s"Logger with name ${ "\"" + name + "\"" } available and disabled",
-              className = Some("io.rbricks.slog.LoggingBackend"), method = None, fileName = None, line = None, cause = None)))
+              className = Some("io.rbricks.slog.LoggingBackend"),
+              method = None, fileName = None, line = None, cause = None, mdc = None)))
           } catch {
             case _: IllegalStateException => ()
           }

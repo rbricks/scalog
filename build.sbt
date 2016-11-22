@@ -17,6 +17,16 @@ lazy val commonSettings = Seq(
   testFrameworks += new TestFramework("utest.runner.Framework")
 )
 
+val mdc = (project in file("mdc"))
+  .settings(commonSettings)
+  .settings(publishSettings)
+  .settings(
+    name := "slog-mdc",
+    libraryDependencies ++= Seq(
+      "org.slf4j"      %  "slf4j-api"              % "1.7.21"
+    )
+  )
+
 val backend = (project in file("backend"))
   .settings(commonSettings)
   .settings(publishSettings)
@@ -27,16 +37,7 @@ val backend = (project in file("backend"))
       "com.typesafe"   %  "config"                 % "1.3.1"       % "provided"
     )
   )
-
-val mdc = (project in file("mdc"))
-  .settings(commonSettings)
-  .settings(publishSettings)
-  .settings(
-    name := "slog-mdc",
-    libraryDependencies ++= Seq(
-      "org.slf4j"      %  "slf4j-api"              % "1.7.21"
-    )
-  )
+  .dependsOn(mdc % "provided")
 
 val contextpropagation = (project in file("contextpropagation"))
   .settings(commonSettings)

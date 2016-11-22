@@ -7,4 +7,5 @@ case class LogMessage(
   method: Option[String],
   fileName: Option[String],
   line: Option[Int],
-  cause: Option[Throwable])
+  cause: Option[Throwable],
+  mdc: Option[Map[String, String]])
