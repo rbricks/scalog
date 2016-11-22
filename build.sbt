@@ -1,10 +1,13 @@
 import com.typesafe.sbt.SbtAspectj.AspectjKeys.{ compileOnly, weaverOptions, verbose }
 
-lazy val commonSettings = Seq(
+lazy val baseSettings = Seq(
   organization := "io.rbricks",
   scalaVersion := "2.12.0",
   crossScalaVersions := Seq("2.11.8", "2.12.0"),
-  version := "0.1-SNAPSHOT",
+  version := "0.1-SNAPSHOT"
+)
+
+lazy val commonSettings = baseSettings ++ Seq(
   scalacOptions := Seq(
     "-unchecked",
     "-deprecation",
@@ -87,7 +90,8 @@ val example = (project in file("example"))
   )
   .dependsOn(backend, contextpropagation, mdc)
 
-val root = project
+val root = (project in file("."))
+  .settings(baseSettings)
   .aggregate(backend, mdc, contextpropagation, example)
 
 lazy val noPublishSettings = Seq(

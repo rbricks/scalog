@@ -12,6 +12,7 @@ class Module {
 
   def run(): Unit = {
     log.info("hi")
+    log.debug("debug")
 
     MDC.put("key", "asdf")
     val f = Future {
