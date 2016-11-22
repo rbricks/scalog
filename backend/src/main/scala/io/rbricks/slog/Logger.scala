@@ -1,6 +1,9 @@
 package io.rbricks.slog
 
 import org.slf4j.helpers.MessageFormatter
+import org.slf4j.MDC
+
+import scala.collection.JavaConverters._
 
 private[slog] class Logger(
   name: String,
@@ -21,6 +24,12 @@ private[slog] class Logger(
       val line = topFrame.map(x => x.getLineNumber())
       val className = topFrame.map(_.getClassName())
       val method = topFrame.map(_.getMethodName())
+      val mdc: Option[Map[String, String]] = MDC.getMDCAdapter() match {
+        case a: io.rbricks.slog.mdc.SlogMDCAdapter =>
+          a.propertyMap
+        case a if a != null =>
+          Option(a.getCopyOfContextMap()).map(_.asScala.toMap)
+      }
       writeToTransports(name, LogMessage(
         level,
         message,
@@ -28,7 +37,8 @@ private[slog] class Logger(
         method = method,
         fileName = file,
         line = line,
-        cause = cause))
+        cause = cause,
+        mdc = mdc))
     }
   }
 
