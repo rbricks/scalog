@@ -1,10 +1,10 @@
-package io.rbricks.slog.mdc
+package io.rbricks.scalog.mdc
 
 import org.slf4j.spi.MDCAdapter
 
 import scala.collection.JavaConverters._
 
-class SlogMDCAdapter extends MDCAdapter {
+class ScalogMDCAdapter extends MDCAdapter {
 
   val threadLocal = new ThreadLocal[Map[String, String]]();
 

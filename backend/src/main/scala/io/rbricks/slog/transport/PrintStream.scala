@@ -1,6 +1,6 @@
-package io.rbricks.slog.transport
+package io.rbricks.scalog.transport
 
-import io.rbricks.slog._
+import io.rbricks.scalog._
 
 import java.util.Calendar
 import java.util.TimeZone

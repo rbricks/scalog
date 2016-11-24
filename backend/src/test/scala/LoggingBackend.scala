@@ -1,4 +1,4 @@
-package io.rbricks.slog
+package io.rbricks.scalog
 
 import org.slf4j.LoggerFactory
 
@@ -16,7 +16,7 @@ object LoggingBackendTests extends TestSuite {
       }
       
       val loggingBackend = LoggingBackend.singleTransport(t,
-        "io.rbricks.slog" -> Level.Info,
+        "io.rbricks.scalog" -> Level.Info,
         "com.example.a" -> Level.Info,
         "com.example.a.inner" -> Level.Debug,
         "com.example" -> Level.Error
@@ -49,7 +49,7 @@ object LoggingBackendTests extends TestSuite {
           ("com.example.a.inner.c", LogMessage(_, _, "ok", _, _, _, _, _, _)),
           ("com.example.d", LogMessage(_, _, "!!", _, _, _, _, _, _)),
           ("com.example", LogMessage(_, _, "start", _, _, _, _, _, _)),
-          ("io.rbricks.slog.disabled", LogMessage(_, _, "Logger with name \"com.other\" available and disabled", _, _, _, _, _, _))
+          ("io.rbricks.scalog.disabled", LogMessage(_, _, "Logger with name \"com.other\" available and disabled", _, _, _, _, _, _))
         ) =>
       }
     }

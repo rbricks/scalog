@@ -1,4 +1,4 @@
-package io.rbricks.slog
+package io.rbricks.scalog
 
 case class LogMessage(
   time: java.time.Instant,

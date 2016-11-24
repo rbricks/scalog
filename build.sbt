@@ -24,7 +24,7 @@ val mdc = (project in file("mdc"))
   .settings(commonSettings)
   .settings(publishSettings)
   .settings(
-    name := "slog-mdc",
+    name := "scalog-mdc",
     libraryDependencies ++= Seq(
       "org.slf4j"      %  "slf4j-api"              % "1.7.21"
     )
@@ -34,7 +34,7 @@ val backend = (project in file("backend"))
   .settings(commonSettings)
   .settings(publishSettings)
   .settings(
-    name := "slog-backend",
+    name := "scalog-backend",
     libraryDependencies ++= Seq(
       "org.slf4j"      %  "slf4j-api"              % "1.7.21",
       "com.typesafe"   %  "config"                 % "1.3.1"       % "provided"
@@ -47,7 +47,7 @@ val contextpropagation = (project in file("contextpropagation"))
   .settings(publishSettings)
   .settings(aspectjSettings)
   .settings(
-    name := "slog-contextpropagation",
+    name := "scalog-contextpropagation",
     libraryDependencies ++= Seq(
       "org.slf4j"      % "slf4j-api"               % "1.7.21"
     ),
@@ -104,11 +104,11 @@ lazy val publishSettings = Seq(
   licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
   publishMavenStyle := true,
   pomExtra in Global := {
-    <url>http://github.com/rbricks/slog</url>
+    <url>http://github.com/rbricks/scalog</url>
     <scm>
-      <connection>scm:git:github.com/rbricks/slog.git</connection>
-      <developerConnection>scm:git:git@github.com:rbricks/slog.git</developerConnection>
-      <url>github.com/rbricks/slog</url>
+      <connection>scm:git:github.com/rbricks/scalog.git</connection>
+      <developerConnection>scm:git:git@github.com:rbricks/scalog.git</developerConnection>
+      <url>github.com/rbricks/scalog</url>
     </scm>
     <developers>
       <developer>

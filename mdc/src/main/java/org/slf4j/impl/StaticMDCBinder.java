@@ -2,7 +2,7 @@ package org.slf4j.impl;
 
 import org.slf4j.spi.MDCAdapter;
 
-import io.rbricks.slog.mdc.SlogMDCAdapter;
+import io.rbricks.scalog.mdc.ScalogMDCAdapter;
 
 public class StaticMDCBinder {
   public static final StaticMDCBinder SINGLETON = new StaticMDCBinder();
@@ -10,10 +10,10 @@ public class StaticMDCBinder {
   private StaticMDCBinder() { }
 
   public MDCAdapter getMDCA() {
-    return new SlogMDCAdapter();
+    return new ScalogMDCAdapter();
   }
 
   public String getMDCAdapterClassStr() {
-    return SlogMDCAdapter.class.getName();
+    return ScalogMDCAdapter.class.getName();
   }
 }
