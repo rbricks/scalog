@@ -1,6 +1,6 @@
-package io.rbricks.slog
+package io.rbricks.scalog
 
-import io.rbricks.slog._
+import io.rbricks.scalog._
 
 import scala.collection.JavaConversions._
 

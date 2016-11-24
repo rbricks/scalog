@@ -1,4 +1,4 @@
-# ![rbricks slog](https://raw.githubusercontent.com/rbricks/rbricks.github.io/master/logo/slog.png)
+# ![rbricks scalog](https://raw.githubusercontent.com/rbricks/rbricks.github.io/master/logo/scalog.png)
 
 A minimalistic, scala-oriented backend for slf4j.
 

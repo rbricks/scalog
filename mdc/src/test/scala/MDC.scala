@@ -1,4 +1,4 @@
-package io.rbricks.slog.mdc
+package io.rbricks.scalog.mdc
 
 import utest._
 

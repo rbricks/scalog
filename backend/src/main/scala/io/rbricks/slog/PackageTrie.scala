@@ -1,4 +1,4 @@
-package io.rbricks.slog
+package io.rbricks.scalog
 
 /**
  * A trie-like structure that uses package name segments as key segments.

@@ -1,4 +1,4 @@
-package io.rbricks.slog.contextpropagation
+package io.rbricks.scalog.contextpropagation
 
 import scala.concurrent.{ Future }
 import scala.concurrent.ExecutionContext.Implicits.global

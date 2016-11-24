@@ -1,4 +1,4 @@
-package io.rbricks.slog.contextpropagation
+package io.rbricks.scalog.contextpropagation
 
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation._

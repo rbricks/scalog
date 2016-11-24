@@ -1,4 +1,4 @@
-package io.rbricks.slog
+package io.rbricks.scalog
 
 object CallSiteData {
   import scala.collection.JavaConversions._
@@ -8,7 +8,7 @@ object CallSiteData {
       className == invokingClass ||
       className == "org.apache.log4j.Category" ||
       className.startsWith("org.slf4j.Logger") ||
-      className.startsWith("io.rbricks.slog")
+      className.startsWith("io.rbricks.scalog")
     }.toList
   }
 }

@@ -1,6 +1,6 @@
 package some.example.namespace.name
 
-import io.rbricks.slog._
+import io.rbricks.scalog._
 import com.typesafe.config.{Config, ConfigFactory}
 import org.slf4j.LoggerFactory
 

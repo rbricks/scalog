@@ -1,4 +1,4 @@
-package io.rbricks.slog.format
+package io.rbricks.scalog.format
 
 package object helpers {
   implicit class OptionContext(val sc: StringContext) extends AnyVal {

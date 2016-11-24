@@ -1,4 +1,4 @@
-package io.rbricks.slog
+package io.rbricks.scalog
 
 import com.typesafe.config.ConfigFactory
 

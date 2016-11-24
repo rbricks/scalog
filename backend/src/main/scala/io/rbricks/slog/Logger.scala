@@ -1,11 +1,11 @@
-package io.rbricks.slog
+package io.rbricks.scalog
 
 import org.slf4j.helpers.MessageFormatter
 import org.slf4j.MDC
 
 import scala.collection.JavaConverters._
 
-private[slog] class Logger(
+private[scalog] class Logger(
   name: String,
   enabled: Level,
   writeToTransports: (String, LogMessage) => Unit
@@ -25,7 +25,7 @@ private[slog] class Logger(
       val className = topFrame.map(_.getClassName())
       val method = topFrame.map(_.getMethodName())
       val mdc: Option[Map[String, String]] = MDC.getMDCAdapter() match {
-        case a: io.rbricks.slog.mdc.SlogMDCAdapter =>
+        case a: io.rbricks.scalog.mdc.ScalogMDCAdapter =>
           a.propertyMap
         case a if a != null =>
           Option(a.getCopyOfContextMap()).map(_.asScala.toMap)
@@ -130,6 +130,6 @@ private[slog] class Logger(
   def isTraceEnabled(): Boolean = Level.Trace.value >= enabled.value
 }
 
-private[slog] object Logger {
-  final val fullyQualifiedClassName: String = io.rbricks.slog.Logger.getClass.getName();
+private[scalog] object Logger {
+  final val fullyQualifiedClassName: String = io.rbricks.scalog.Logger.getClass.getName();
 }

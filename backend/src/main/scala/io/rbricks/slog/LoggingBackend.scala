@@ -1,6 +1,6 @@
-package io.rbricks.slog
+package io.rbricks.scalog
 
-import io.rbricks.slog.transport.Transport
+import io.rbricks.scalog.transport.Transport
 
 /**
  * Public interface for the logging backend.
@@ -15,13 +15,13 @@ trait Backend {
 /**
  * Holds a transport and the logger levels enabled for that transport.
  */
-private[slog] case class LoggingTransport(transport: Transport, levelsEnabled: Seq[(String, Level)])
+private[scalog] case class LoggingTransport(transport: Transport, levelsEnabled: Seq[(String, Level)])
 
 /**
  * Implementation of the slf4j backend.
  * Registers itself as the slf4j logger factory on instantiation.
  */
-private[slog] class LoggingBackend(
+private[scalog] class LoggingBackend(
   loggingTransports: Seq[LoggingTransport]
 ) extends Backend {
 
@@ -74,21 +74,21 @@ private[slog] class LoggingBackend(
 
   val loggerNames = scala.collection.mutable.HashSet[String]()
 
-  val slogDisabledTransportLevels = transports.map { case (t, le) =>
-    t -> le.getAllOnPath("io.rbricks.slog.disabled").lastOption.getOrElse(Disabled)
+  val scalogDisabledTransportLevels = transports.map { case (t, le) =>
+    t -> le.getAllOnPath("io.rbricks.scalog.disabled").lastOption.getOrElse(Disabled)
   }
 
   @inline
   private[this] def logLoggerIsDisable(name: String): Unit = {
     if (!loggerNames.contains(name)) {
-      for ((t, lvl) <- slogDisabledTransportLevels) {
+      for ((t, lvl) <- scalogDisabledTransportLevels) {
         if (Level.Info.value >= lvl.value) {
           try {
-            queue.add((t, "io.rbricks.slog.disabled", LogMessage(
+            queue.add((t, "io.rbricks.scalog.disabled", LogMessage(
               java.time.Instant.now(),
               Level.Info,
               s"Logger with name ${ "\"" + name + "\"" } available and disabled",
-              className = Some("io.rbricks.slog.LoggingBackend"),
+              className = Some("io.rbricks.scalog.LoggingBackend"),
               method = None, fileName = None, line = None, cause = None, mdc = None)))
           } catch {
             case _: IllegalStateException => ()

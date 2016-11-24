@@ -4,13 +4,13 @@
   <aspects>
 
     <!-- Futures -->
-    <aspect name="io.rbricks.slog.contextpropagation.FutureInstrumentation"/>
+    <aspect name="io.rbricks.scalog.contextpropagation.FutureInstrumentation"/>
 
   </aspects>
 
   <weaver>
     <include within="scala.concurrent..*"/>
-    <include within="io.rbricks.slog.contextpropagation..*"/>
+    <include within="io.rbricks.scalog.contextpropagation..*"/>
   </weaver>
 
 </aspectj>
