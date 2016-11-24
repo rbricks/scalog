@@ -2,12 +2,25 @@ package io.rbricks.slog
 
 import io.rbricks.slog.transport.Transport
 
-case class LoggingTransport(transport: Transport, levelsEnabled: Seq[(String, Level)])
-
+/**
+ * Public interface for the logging backend.
+ */
 trait Backend {
+  /**
+   * Interrupts the logging threads and makes an effort to flush any remaining in-flight messages.
+   */
   def cease(): Unit
 }
 
+/**
+ * Holds a transport and the logger levels enabled for that transport.
+ */
+private[slog] case class LoggingTransport(transport: Transport, levelsEnabled: Seq[(String, Level)])
+
+/**
+ * Implementation of the slf4j backend.
+ * Registers itself as the slf4j logger factory on instantiation.
+ */
 private[slog] class LoggingBackend(
   loggingTransports: Seq[LoggingTransport]
 ) extends Backend {
@@ -66,7 +79,7 @@ private[slog] class LoggingBackend(
   }
 
   @inline
-  private[this] def loggerDisabled(name: String): Unit = {
+  private[this] def logLoggerIsDisable(name: String): Unit = {
     if (!loggerNames.contains(name)) {
       for ((t, lvl) <- slogDisabledTransportLevels) {
         if (Level.Info.value >= lvl.value) {
@@ -88,9 +101,11 @@ private[slog] class LoggingBackend(
 
   org.slf4j.impl.SimpleLoggerFactory.setLoggerFactoryInterface(new org.slf4j.impl.LoggerFactoryInterface {
     def getNewLogger(name: String): org.slf4j.Logger = {
+      // NOTE: the following is on the critical path for creating a new Logger instance
       val transportLevels = transports.map { case (t, le) => t -> le.getAllOnPath(name).lastOption.getOrElse(Disabled) }
 
       def writeToTransports(name: String, logMessage: LogMessage) = {
+        // NOTE: the following is on the critical path for writing a log message (in the caller's thread)
         for ((t, lvl) <- transportLevels) {
           if (logMessage.level.value >= lvl.value) {
             queue.add((t, name, logMessage))
@@ -100,7 +115,7 @@ private[slog] class LoggingBackend(
 
       val le = transportLevels.map { case (_, lvl) => lvl }.min
       if (le == Disabled) {
-        loggerDisabled(name)
+        logLoggerIsDisable(name)
       }
 
       new Logger(name, le, writeToTransports)
@@ -109,7 +124,16 @@ private[slog] class LoggingBackend(
 
 }
 
+
+// TODO: describe level propagation to loggers
+/**
+ * Instantiate logging backends.
+ */
 object LoggingBackend {
+  /**
+   * Backend that outputs to stdout, colorizing if the console is a tty.
+   * @enabledLevels: which levels are enabled for each logger name
+   */
   def console(enabledLevels: (String, Level)*): Backend = {
     val transports = Seq(
       LoggingTransport(
@@ -118,16 +142,34 @@ object LoggingBackend {
     new LoggingBackend(transports)
   }
 
+  /**
+   * Backend that outputs to the provided transport.
+   * @enabledLevels: which levels are enabled for each logger name
+   */
   def singleTransport(transport: Transport, enabledLevels: (String, Level)*): Backend = {
     new LoggingBackend(
       Seq(LoggingTransport(transport, enabledLevels)))
   }
 
+  /**
+   * Backend that outputs to stdout, colorizing if the console is a tty.
+   * Logging level configuration is obtained by a typesafe-config Config.
+   *
+   * Example:
+   * The following reads the config from the "logging" key.
+   * {{{
+   * LoggingBackend.consoleFromConfig(
+   *   ConfigFactory.load().getConfig("logging"))
+   * }}}
+   */
   def consoleFromConfig(config: com.typesafe.config.Config): Backend = {
     val enabledLevels = typesafeconfig.enabledLevelsFromConfig(config)
     console(enabledLevels: _*)
   }
 
+  /**
+   * Backend for testing, outputs to console all messages with the provided level, or higher.
+   */
   def testing(level: Level = Level.Info): Backend =
     LoggingBackend.console("" -> level)
 }

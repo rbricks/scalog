@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="1024" height="768" viewBox="0, 0, 1024, 768">
+  <g id="Layer_1">
+    <g>
+      <path d="M154.953,75.5 L529.424,75.5 L529.424,347.04 L154.953,347.04 L154.953,75.5 z" fill="#FFFFFF"/>
+      <path d="M154.953,75.5 L529.424,75.5 L529.424,347.04 L154.953,347.04 L154.953,75.5 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 135.517, -25.557)">
+      <tspan x="-3.211" y="3.5" font-family="Raleway-Medium" font-size="13" fill="#000000">s</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 201.5, 102.708)">
+      <tspan x="-26.656" y="3.5" font-family="Raleway-Medium" font-size="13" fill="#000000">Backend</tspan>
+    </text>
+    <text transform="matrix(1, 0, 0, 1, 406.144, 174.625)">
+      <tspan x="-32.758" y="3.5" font-family="Raleway-Medium" font-size="13" fill="#000000">transports</tspan>
+    </text>
+    <g>
+      <path d="M382.452,294.992 C396.204,294.992 398.8,294.705 414.843,294.705 C430.887,294.705 434.402,289.645 434.402,275.129 C434.402,268.906 434.402,262.596 434.402,257.418" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+      <path d="M438.002,257.418 L434.402,247.818 L430.802,257.418 z" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 242.321, 311.014)">
+      <tspan x="-39.084" y="3.5" font-family="Raleway-Medium" font-size="13" fill="#000000">LogMessage</tspan>
+    </text>
+    <path d="M346.953,75.5 L346.953,347.04" fill-opacity="0" stroke="#000000" stroke-width="1" stroke-dasharray="6,6"/>
+    <text transform="matrix(0, -1, 1, 0, 338.551, 137.884)">
+      <tspan x="-50.856" y="2.5" font-family="Raleway-Medium" font-size="12" fill="#000000">thread boundary</tspan>
+    </text>
+    <g>
+      <path d="M243.232,245.625 C243.232,245.625 243.232,260.614 243.232,274.365 C243.232,288.117 259.217,294.992 272.968,294.992 C282.517,294.992 287.027,294.624 294.263,294.399" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+      <path d="M294.315,297.999 L303.862,294.26 L294.211,290.799 z" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="2" stroke-opacity="1"/>
+    </g>
+    <g>
+      <path d="M306.065,283.376 L382.452,283.376 L382.452,305.204 L306.065,305.204 L306.065,283.376 z" fill="#FFFFFF"/>
+      <path d="M306.065,283.376 L382.452,283.376 L382.452,305.204 L306.065,305.204 L306.065,283.376 z" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+    </g>
+    <path d="M355.429,287.014 L365.434,287.014 L365.434,301.566 L355.429,301.566 L355.429,287.014 z" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+    <path d="M368.886,287.014 L378.891,287.014 L378.891,301.566 L368.886,301.566 L368.886,287.014 z" fill-opacity="0" stroke="#000000" stroke-width="2"/>
+    <text transform="matrix(1, 0, 0, 1, 207.963, 174.625)">
+      <tspan x="-23.277" y="3.5" font-family="Raleway-Medium" font-size="13" fill="#000000">loggers</tspan>
+    </text>
+    <g>
+      <path d="M175.343,233.37 L175.343,245.625 L314.752,245.625 L314.752,233.37" fill="#FFFFFF"/>
+      <path d="M175.343,233.37 L175.343,245.625 L314.752,245.625 L314.752,233.37" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    </g>
+    <g>
+      <path d="M180.814,186.926 L203.737,186.926 L203.737,239.307 L180.814,239.307 L180.814,186.926 z" fill="#FFFFFF"/>
+      <path d="M180.814,186.926 L203.737,186.926 L203.737,239.307 L180.814,239.307 L180.814,186.926 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    </g>
+    <g>
+      <path d="M207.178,186.926 L230.101,186.926 L230.101,239.307 L207.178,239.307 L207.178,186.926 z" fill="#FFFFFF"/>
+      <path d="M207.178,186.926 L230.101,186.926 L230.101,239.307 L207.178,239.307 L207.178,186.926 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    </g>
+    <g>
+      <path d="M233.542,186.926 L256.465,186.926 L256.465,239.307 L233.542,239.307 L233.542,186.926 z" fill="#FFFFFF"/>
+      <path d="M233.542,186.926 L256.465,186.926 L256.465,239.307 L233.542,239.307 L233.542,186.926 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    </g>
+    <g>
+      <path d="M364.366,233.37 L364.366,245.625 L503.775,245.625 L503.775,233.37" fill="#FFFFFF"/>
+      <path d="M364.366,233.37 L364.366,245.625 L503.775,245.625 L503.775,233.37" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    </g>
+    <g>
+      <path d="M371.363,186.926 L429.958,186.926 L429.958,239.307 L371.363,239.307 L371.363,186.926 z" fill="#FFFFFF"/>
+      <path d="M371.363,186.926 L429.958,186.926 L429.958,239.307 L371.363,239.307 L371.363,186.926 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    </g>
+    <g>
+      <path d="M438.753,186.926 L497.349,186.926 L497.349,239.307 L438.753,239.307 L438.753,186.926 z" fill="#FFFFFF"/>
+      <path d="M438.753,186.926 L497.349,186.926 L497.349,239.307 L438.753,239.307 L438.753,186.926 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    </g>
+    <g>
+      <path d="M180.814,128.434 L309.193,128.434 L309.193,154.8 L180.814,154.8 L180.814,128.434 z" fill="#FFFFFF"/>
+      <path d="M180.814,128.434 L309.193,128.434 L309.193,154.8 L180.814,154.8 L180.814,128.434 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 244.843, 141.117)">
+      <tspan x="-44.616" y="3.5" font-family="Raleway-Medium" font-size="13" fill="#000000">LoggerFactory</tspan>
+    </text>
+    <g>
+      <path d="M290.484,154.8 C290.484,154.8 290.484,173.379 290.484,190.424 C290.484,206.837 281.855,214.748 276.1,215.313" fill-opacity="0" stroke="#000000" stroke-width="2" stroke-dasharray="12,4,4,4"/>
+      <path d="M276.182,211.714 L266.503,215.095 L276.019,218.912 z" fill="#000000" fill-opacity="1" stroke="#000000" stroke-width="2" stroke-opacity="1"/>
+    </g>
+  </g>
+</svg>
