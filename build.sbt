@@ -1,4 +1,5 @@
 import com.typesafe.sbt.SbtAspectj.AspectjKeys.{ compileOnly, weaverOptions, verbose }
+import UnidocKeys.{ unidocProjectFilter, unidoc }
 
 lazy val baseSettings = Seq(
   organization := "io.rbricks",
@@ -93,7 +94,19 @@ val example = (project in file("example"))
 val root = (project in file("."))
   .settings(baseSettings)
   .settings(noPublishSettings)
+  .settings(unidocSettings)
   .aggregate(backend, mdc, contextpropagation, example)
+  .settings(
+    name := "scalog",
+    unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(
+      contextpropagationBenchWoven,
+      contextpropagationBenchVanilla,
+      example),
+    git.remoteRepo := "git@github.com:rbricks/scalog.git"
+  )
+  .settings(ghpages.settings)
+ 
+site.addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), "latest/api")
 
 lazy val noPublishSettings = Seq(
   publish := (),
@@ -120,3 +133,5 @@ lazy val publishSettings = Seq(
     </developers>
   }
 )
+
+// site.includeScaladoc()

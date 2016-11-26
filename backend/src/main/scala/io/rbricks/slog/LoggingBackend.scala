@@ -158,6 +158,8 @@ object LoggingBackend {
    * Example:
    * The following reads the config from the "logging" key.
    * {{{
+   * import io.rbricks.scalog._
+   * import com.typesafe.config.ConfigFactory
    * LoggingBackend.consoleFromConfig(
    *   ConfigFactory.load().getConfig("logging"))
    * }}}
