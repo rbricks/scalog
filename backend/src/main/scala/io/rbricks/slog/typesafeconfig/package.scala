@@ -2,12 +2,9 @@ package io.rbricks.scalog
 
 import io.rbricks.scalog._
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 package object typesafeconfig {
-
-  case class InvalidConfig(key: String, v: String) extends Exception(
-    s"Invalid value ${ "\"" + v + "\"" } for key ${ "\"" + key + "\"" }")
 
   private val stringLevel = Map(
     "trace" -> Level.Trace,
@@ -28,7 +25,7 @@ package object typesafeconfig {
   }
     
   def enabledLevelsFromConfig(config: com.typesafe.config.Config): Seq[(String, Level)] = {
-    val vals = config.entrySet.toSeq.map(x => (x.getKey -> x.getValue))
+    val vals = config.entrySet.asScala.toSeq.map(x => (x.getKey -> x.getValue))
     vals.map { case (PackageLevelKey(k), v) =>
       val lvl = (v.unwrapped match {
         case s: String => Some(s)

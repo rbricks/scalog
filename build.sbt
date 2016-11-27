@@ -11,8 +11,8 @@ lazy val commonSettings = baseSettings ++ Seq(
   scalacOptions := Seq(
     "-unchecked",
     "-deprecation",
-    "-encoding",
-    "utf8"),
+    "-encoding", "utf8",
+    "-Xlint"),
   libraryDependencies ++= Seq(
     "com.lihaoyi"    %% "utest"                  % "0.4.4"       % "test",
     "com.lihaoyi"    %% "pprint"                 % "0.4.4"       % "test"
@@ -92,6 +92,7 @@ val example = (project in file("example"))
 
 val root = (project in file("."))
   .settings(baseSettings)
+  .settings(noPublishSettings)
   .aggregate(backend, mdc, contextpropagation, example)
 
 lazy val noPublishSettings = Seq(
