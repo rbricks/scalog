@@ -5,7 +5,7 @@ lazy val baseSettings = Seq(
   organization := "io.rbricks",
   scalaVersion := "2.12.0",
   crossScalaVersions := Seq("2.11.8", "2.12.0"),
-  version := "0.1.0"
+  version := "0.2-SNAPSHOT"
 )
 
 lazy val commonSettings = baseSettings ++ Seq(
