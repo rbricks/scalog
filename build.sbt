@@ -21,6 +21,13 @@ lazy val commonSettings = baseSettings ++ Seq(
   testFrameworks += new TestFramework("utest.runner.Framework")
 )
 
+val mdcinterface = (project in file("mdcinterface"))
+  .settings(commonSettings)
+  .settings(publishSettings)
+  .settings(
+    name := "scalog-mdcinterface"
+  )
+
 val mdc = (project in file("mdc"))
   .settings(commonSettings)
   .settings(publishSettings)
@@ -30,6 +37,7 @@ val mdc = (project in file("mdc"))
       "org.slf4j"      %  "slf4j-api"              % "1.7.21"
     )
   )
+  .dependsOn(mdcinterface)
 
 val backend = (project in file("backend"))
   .settings(commonSettings)
@@ -41,7 +49,7 @@ val backend = (project in file("backend"))
       "com.typesafe"   %  "config"                 % "1.3.1"       % "provided"
     )
   )
-  .dependsOn(mdc % "provided")
+  .dependsOn(mdcinterface)
 
 val contextpropagation = (project in file("contextpropagation"))
   .settings(commonSettings)
@@ -95,7 +103,7 @@ val root = (project in file("."))
   .settings(baseSettings)
   .settings(noPublishSettings)
   .settings(unidocSettings)
-  .aggregate(backend, mdc, contextpropagation, example)
+  .aggregate(backend, mdc, mdcinterface, contextpropagation, example)
   .settings(
     name := "scalog",
     unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(

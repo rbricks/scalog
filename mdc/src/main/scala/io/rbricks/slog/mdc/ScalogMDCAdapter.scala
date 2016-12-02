@@ -4,7 +4,7 @@ import org.slf4j.spi.MDCAdapter
 
 import scala.collection.JavaConverters._
 
-class ScalogMDCAdapter extends MDCAdapter {
+class ScalogMDCAdapter extends MDCAdapter with io.rbricks.scalog.ScalaMDCAdapter {
 
   val threadLocal = new ThreadLocal[Map[String, String]]();
 

@@ -24,11 +24,11 @@ private[scalog] class Logger(
       val line = topFrame.map(x => x.getLineNumber())
       val className = topFrame.map(_.getClassName())
       val method = topFrame.map(_.getMethodName())
-      val mdc: Option[Map[String, String]] = MDC.getMDCAdapter() match {
-        case a: io.rbricks.scalog.mdc.ScalogMDCAdapter =>
-          a.propertyMap
-        case a if a != null =>
-          Option(a.getCopyOfContextMap()).map(_.asScala.toMap)
+      val mdc: Option[Map[String, String]] = Option(MDC.getMDCAdapter()).flatMap {
+        case adapter: ScalaMDCAdapter =>
+          adapter.propertyMap
+        case otherwise => 
+          Option(otherwise.getCopyOfContextMap()).map(_.asScala.toMap)
       }
       writeToTransports(name, LogMessage(
         time = java.time.Instant.now(),
