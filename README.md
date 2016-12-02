@@ -10,7 +10,7 @@ Part of [rbricks](http://rbricks.io), a collection of composable, small-footprin
 
 1. Extremely simple set-up.
 
-*   In the application entry point, from typesafe config:
+  * In the application entry point, from typesafe config:
 
     ```scala
     object Main extends App {
@@ -22,7 +22,8 @@ Part of [rbricks](http://rbricks.io), a collection of composable, small-footprin
     }
     ```
 
-*   or, in the application entry point, programmatically:
+  * or, in the application entry point, programmatically:
+
     ```scala
           object Main extends App {
             import io.rbricks.scalog._
@@ -33,7 +34,9 @@ Part of [rbricks](http://rbricks.io), a collection of composable, small-footprin
           }
     ```
 
-        Other ways to instantiate the backend can be found in the [scaladoc for `LoggingBackend`](http://rbricks.io/scalog/latest/api/io/rbricks/scalog/LoggingBackend$.html)
+  You can set `-Dscalog.forceColored=yes` as a _java option_ (`javaOptions += "-Dscalog.forceColored=yes"` in `build.sbt`) to enable colorized output even when stdout/stderr don't appear to be ttys.
+
+  Other ways to instantiate the backend can be found in the [scaladoc for `LoggingBackend`](http://rbricks.io/scalog/latest/api/io/rbricks/scalog/LoggingBackend$.html)
 
 2. Easily extensible. See [architecture](#architecture) for details.
 3. Support for slf4j's [MDC (Mapped Diagnostic Context)](http://logback.qos.ch/manual/mdc.html) to keep track of context (i.e. http request being handled) between calls.

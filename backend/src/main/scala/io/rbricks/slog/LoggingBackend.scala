@@ -135,9 +135,10 @@ object LoggingBackend {
    * @enabledLevels: which levels are enabled for each logger name
    */
   def console(enabledLevels: (String, Level)*): Backend = {
+    val forceColored = Option(System.getProperty("scalog.forceColored")).map(_.toLowerCase == "yes").getOrElse(false)
     val transports = Seq(
       LoggingTransport(
-        new transport.PrintStream(format.PlainText(colorized = (System.console() != null)), System.out), enabledLevels)
+        new transport.PrintStream(format.PlainText(colorized = (System.console() != null || forceColored)), System.out), enabledLevels)
     )
     new LoggingBackend(transports)
   }
