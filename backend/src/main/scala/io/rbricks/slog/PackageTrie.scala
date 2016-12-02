@@ -34,13 +34,13 @@ object PackageTrie {
         case Seq() => (None, Seq(), v)
       }
     }.groupBy { case (h, _, _) => h }
-    val nodes = groups.collect { case (Some(pfx), vs) =>
+    val nodes = groups.collect { case (Some(pfx), vs) if pfx != "" =>
       (pfx, stepDown(vs.map { case (_, xs, v) => (xs, v) }))
     }
-    val head = groups.collectFirst { case (None, vs) =>
-      vs.headOption.map { case (_, _, v) => v }
+    val head = groups.collectFirst {
+      case (None | Some(""), vs) =>
+        vs.headOption.map { case (_, _, v) => v }
     }.flatten
-
     PackageTrie(head, nodes)
   }
 

@@ -29,5 +29,15 @@ object PackageTrieTests extends TestSuite {
         * - assert(trie.getAllOnPath("a.c.d.e") == Seq("a", "c", "e"))
       }
     }
+
+    'TrieWithEmpty {
+      val trie = PackageTrie(Seq(
+        "" -> "a"
+      ))
+
+      'getAllOnPath {
+        * - assert(trie.getAllOnPath("b.c.d") == Seq("a"))
+      }
+    }
   }
 }
