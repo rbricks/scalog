@@ -53,13 +53,13 @@ Artifacts for Scala 2.11 and 2.12 are available on Maven Central.
 Add the dependency to your `build.sbt`
 
 ```scala
-libraryDependencies += "io.rbricks" %% "scalog-backend" % "0.1.0"
+libraryDependencies += "io.rbricks" %% "scalog-backend" % "0.2.0"
 ```
 
 Additionally, for MDC support, add:
 
 ```
-libraryDependencies += "io.rbricks" %% "scalog-mdc" % "0.1.0"
+libraryDependencies += "io.rbricks" %% "scalog-mdc" % "0.2.0"
 ```
 
 And refer to [context propagation](#context-propagation) for how to set up MDC propagation through async `Future` combinators.
