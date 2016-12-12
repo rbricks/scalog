@@ -36,7 +36,7 @@ class PlainText(colorized: Boolean = false) extends Format[String] {
       ex.printStackTrace(pw)
       "\n\t" + sw.getBuffer
     }
-    val mdc = msg.mdc.map(m => "{" + m.toIterator.map { case (k, v) => s"$k: $v" }.mkString(",") + "} ")
+    val mdc = msg.mdc.map(m => "{" + m.toIterator.map { case (k, v) => s"$k: $v" }.mkString(", ") + "} ")
     val message = colored(C.BOLD)(msg.message.toString)
     so"${msg.time} [$nameMsg] [$level] $message $mdc [$fileLineSegment] [$classMethodSegment]$stackTrace" 
   }
