@@ -40,8 +40,8 @@ Part of [rbricks](http://rbricks.io), a collection of composable, small-footprin
   Other ways to instantiate the backend can be found in the [scaladoc for `LoggingBackend`](http://rbricks.io/scalog/latest/api/io/rbricks/scalog/LoggingBackend$.html)
 
 2. Easily extensible. See [architecture](#architecture) for details.
-3. Support for slf4j's [MDC (Mapped Diagnostic Context)](http://logback.qos.ch/manual/mdc.html) to keep track of context (i.e. http request being handled) between calls.
-4. Support for MDC context propagation through future combinators, to keep track of a request handled asynchronously. See [context propagation](#context-propagation) for details.
+3. Support for slf4j's __[MDC (Mapped Diagnostic Context)](http://logback.qos.ch/manual/mdc.html)__ to keep track of context (i.e. http request being handled) between calls.
+4. Support for __MDC context propagation__ through future combinators, to keep track of a request handled asynchronously. See [this](contextpropagation/README.md) for details and installation instructions.
 
 __A note on performance.__ The basic precautions to limit useless overhead in the critical path are in place, but performance is not currently a main focus. The library is geared towards ease of use for projects in which raw processing perf is not a big concern either because they act as a hub to networked resources or because they haven't reached a stage in which single-server performance is critical.
 
@@ -90,11 +90,6 @@ A `Transport` can be implemented by extending the trait directly or (more conven
 Included __formats__ can be found in package [`format`](http://rbricks.io/scalog/latest/api/io/rbricks/scalog/format/index.html).
 
 Included __transports__ can be found in package [`transport`](http://rbricks.io/scalog/latest/api/io/rbricks/scalog/transport/index.html).
-
-## Context propagation
-
-This section is WIP.
-
 
 
 [MIT License](LICENSE.txt)
