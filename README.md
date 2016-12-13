@@ -41,13 +41,13 @@ Part of [rbricks](http://rbricks.io), a collection of composable, small-footprin
   * or, in the application entry point, programmatically:
 
     ```scala
-          object Main extends App {
-            import io.rbricks.scalog._
-            LoggingBackend.console(
-              "io.finch" -> Level.Info,
-              "com.example.thisapp" -> Level.Debug)
-            // ...
-          }
+    object Main extends App {
+      import io.rbricks.scalog._
+      LoggingBackend.console(
+        "io.finch" -> Level.Info,
+        "com.example.thisapp" -> Level.Debug)
+      // ...
+    }
     ```
 
   You can set `-Dscalog.forceColored=yes` as a _java option_ (`javaOptions += "-Dscalog.forceColored=yes"` in `build.sbt`) to enable colorized output even when stdout/stderr don't appear to be ttys.
