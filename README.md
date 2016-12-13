@@ -23,6 +23,21 @@ Part of [rbricks](http://rbricks.io), a collection of composable, small-footprin
     }
     ```
 
+    Then add the logging config to your `application.conf`:
+
+    ```
+    logging {
+      some.example.namespace {
+        'level = info
+        ClassName1 = error
+        inner.namespace {
+          'level = info
+          "ClassName2" = debug
+        }
+      }
+    }
+    ```
+
   * or, in the application entry point, programmatically:
 
     ```scala
