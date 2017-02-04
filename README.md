@@ -106,5 +106,10 @@ Included __formats__ can be found in package [`format`](http://rbricks.io/scalog
 
 Included __transports__ can be found in package [`transport`](http://rbricks.io/scalog/latest/api/io/rbricks/scalog/transport/index.html).
 
+## Changelog
+
+### 0.2.1
+
+  * Support for Scala 2.10 (@larsrh, 716b183)
 
 [MIT License](LICENSE.txt)
