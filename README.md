@@ -1,3 +1,5 @@
+**NOTE: This project is no longer actively maintained.**
+
 # ![rbricks scalog](https://raw.githubusercontent.com/rbricks/rbricks.github.io/master/logo/scalog.png)
 
 A small (<500 loc), scala-oriented backend for slf4j.
